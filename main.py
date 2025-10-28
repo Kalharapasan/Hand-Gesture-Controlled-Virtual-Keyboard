@@ -49,3 +49,12 @@ def draw_keyboard(img, pressed_key=None):
             text_x = x + (KEY_WIDTH - text_size[0]) // 2
             text_y = y + (KEY_HEIGHT + text_size[1]) // 2
             cv2.putText(img, label, (text_x, text_y), font, 1, (50,50,50), 2)
+            
+def get_key_at_pos(xp, yp):
+    for row_index, row in enumerate(KEYS):
+        for col_index, key in enumerate(row):
+            x = OFFSET_X + col_index * (KEY_WIDTH + GAP)
+            y = OFFSET_Y + row_index * (KEY_HEIGHT + GAP)
+            if x <= xp <= x + KEY_WIDTH and y <= yp <= y + KEY_HEIGHT:
+                return key
+    return None
