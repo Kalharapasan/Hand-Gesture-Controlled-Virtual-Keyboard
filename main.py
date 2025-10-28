@@ -58,3 +58,14 @@ def get_key_at_pos(xp, yp):
             if x <= xp <= x + KEY_WIDTH and y <= yp <= y + KEY_HEIGHT:
                 return key
     return None
+
+def update_text(key):
+    global typed_text
+    if key == "SPACE":
+        typed_text += " "
+    elif key == "BACKSPACE":
+        typed_text = typed_text[:-1]
+    elif key == "ENTER":
+        typed_text += "\n"
+    else:
+        typed_text += key
