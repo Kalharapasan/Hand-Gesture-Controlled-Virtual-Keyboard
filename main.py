@@ -27,3 +27,25 @@ PINCH_THRESHOLD = 40
 calibrated = False
 
 typed_text = ""
+
+def draw_keyboard(img, pressed_key=None):
+    for row_index, row in enumerate(KEYS):
+        for col_index, key in enumerate(row):
+            x = OFFSET_X + col_index * (KEY_WIDTH + GAP)
+            y = OFFSET_Y + row_index * (KEY_HEIGHT + GAP)
+            
+            
+            if pressed_key == key:
+                color = PRESS_COLOR
+            else:
+                color = NORMAL_COLOR
+
+            cv2.rectangle(img, (x, y), (x + KEY_WIDTH, y + KEY_HEIGHT), color, -1)
+            cv2.rectangle(img, (x, y), (x + KEY_WIDTH, y + KEY_HEIGHT), (100, 100, 100), 2)
+
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            label = key if key not in ['SPACE','BACKSPACE','ENTER'] else key[0]  
+            text_size = cv2.getTextSize(label, font, 1, 2)[0]
+            text_x = x + (KEY_WIDTH - text_size[0]) // 2
+            text_y = y + (KEY_HEIGHT + text_size[1]) // 2
+            cv2.putText(img, label, (text_x, text_y), font, 1, (50,50,50), 2)
