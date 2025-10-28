@@ -26,3 +26,4 @@ NORMAL_COLOR = (200, 200, 200)
 PINCH_THRESHOLD = 40
 calibrated = False
 
+typed_text = ""
