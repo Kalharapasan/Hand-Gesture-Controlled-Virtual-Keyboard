@@ -17,3 +17,8 @@ KEYS = [
 KEY_WIDTH, KEY_HEIGHT = 50, 50
 OFFSET_X, OFFSET_Y = 20, 150   # shift keyboard lower so textbox fits above
 GAP = 5
+
+last_pressed_time = 0
+DEBOUNCE = 0.5
+PRESS_COLOR = (0, 200, 0)
+NORMAL_COLOR = (200, 200, 200)
