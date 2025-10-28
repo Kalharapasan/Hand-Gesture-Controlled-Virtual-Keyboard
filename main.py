@@ -22,3 +22,7 @@ last_pressed_time = 0
 DEBOUNCE = 0.5
 PRESS_COLOR = (0, 200, 0)
 NORMAL_COLOR = (200, 200, 200)
+
+PINCH_THRESHOLD = 40
+calibrated = False
+
