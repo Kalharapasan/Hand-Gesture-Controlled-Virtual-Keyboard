@@ -137,3 +137,30 @@ with mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.6, min_tracking_
         y0 = 60
         for i, line in enumerate(typed_text.split("\n")[-2:]):  # show last 2 lines max
             cv2.putText(frame, line, (30, y0 + i*40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
+        
+        draw_keyboard(frame, pressed_key)
+        pressed_key = None
+
+        if results.multi_hand_landmarks:
+            lm = results.multi_hand_landmarks[0]
+            h, w, _ = frame.shape
+            ix, iy = int(lm.landmark[8].x * w), int(lm.landmark[8].y * h)
+            tx, ty = int(lm.landmark[4].x * w), int(lm.landmark[4].y * h)
+
+            cv2.circle(frame, (ix, iy), 8, (255,0,255), -1)
+            cv2.circle(frame, (tx, ty), 8, (255,0,255), -1)
+
+            key = get_key_at_pos(ix, iy)
+            dist = np.hypot(tx-ix, ty-iy)
+
+            if key and dist < PINCH_THRESHOLD and (time.time()-last_pressed_time)>DEBOUNCE:
+                update_text(key)
+                pressed_key = key
+                last_pressed_time = time.time()
+                print("Pressed:", key)
+
+            mp_drawing.draw_landmarks(frame, lm, mp_hands.HAND_CONNECTIONS)
+
+        cv2.imshow("Virtual Keyboard", frame)
+        if cv2.waitKey(1) & 0xFF == 27:  # Esc to exit
+            break
