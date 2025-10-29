@@ -164,3 +164,5 @@ with mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.6, min_tracking_
         cv2.imshow("Virtual Keyboard", frame)
         if cv2.waitKey(1) & 0xFF == 27:  # Esc to exit
             break
+cap.release()
+cv2.destroyAllWindows()
