@@ -119,3 +119,21 @@ cap = cv2.VideoCapture(0)
 cv2.namedWindow("Virtual Keyboard", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("Virtual Keyboard", 1000, 700)    
 
+with mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.6, min_tracking_confidence=0.6) as hands:
+    calibrate_pinch(hands, cap)
+
+    pressed_key = None
+    typed_text = ""
+    
+    while True:
+        ret, frame = cap.read()
+        if not ret: break
+        frame = cv2.flip(frame, 1)
+        img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = hands.process(img_rgb)
+
+        cv2.rectangle(frame, (20,20), (950,120), (255,255,255), -1)
+        cv2.rectangle(frame, (20,20), (950,120), (0,0,0), 2)
+        y0 = 60
+        for i, line in enumerate(typed_text.split("\n")[-2:]):  # show last 2 lines max
+            cv2.putText(frame, line, (30, y0 + i*40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2)
